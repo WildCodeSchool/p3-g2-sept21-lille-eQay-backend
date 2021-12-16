@@ -4,8 +4,8 @@ const { db } = require('./config');
 
 async function getAllAddressesDb() {
   const firstKey = 'nsq0rZeZizMfPK6iTGGyljmD2nN2';
-  const arrayOfKey = Object.keys(dbFirebase.auto[firstKey]);
-  arrayOfKey.map(async (key) => {
+  const arrayOfKeys = Object.keys(dbFirebase.auto[firstKey]);
+  arrayOfKeys.map(async (key) => {
     const fullCoors = dbFirebase.auto[firstKey][key].coor.split(',');
     const latitude = fullCoors[0];
     const longitude = fullCoors[1];
@@ -17,7 +17,6 @@ async function getAllAddressesDb() {
     );
   });
 }
-getAllAddressesDb();
 
 async function getIdAdresses(lat, long) {
   const result = await db.query(
@@ -29,8 +28,8 @@ async function getIdAdresses(lat, long) {
 
 function getMesuresDb() {
   const firstKey = 'nsq0rZeZizMfPK6iTGGyljmD2nN2';
-  const arrayOfKey = Object.keys(dbFirebase.auto[firstKey]);
-  arrayOfKey.map(async (key) => {
+  const arrayOfKeys = Object.keys(dbFirebase.auto[firstKey]);
+  arrayOfKeys.map(async (key) => {
     const { mesures } = dbFirebase.auto[firstKey][key];
     const fullCoors = dbFirebase.auto[firstKey][key].coor.split(',');
     const latitude = fullCoors[0];
@@ -53,6 +52,5 @@ function getMesuresDb() {
     );
   });
 }
-getMesuresDb();
 
-export default getIdAdresses;
+export default { getIdAdresses, getAllAddressesDb, getMesuresDb };
