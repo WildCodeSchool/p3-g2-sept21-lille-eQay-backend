@@ -6,10 +6,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get('/characters', async (req, res) => {
-  res.status(404).send('Route not found! ');
-});
-
 app.get('/indoor', async (req, res) => {
   try {
     const rows = await db.query(`SELECT * FROM mesures;`);
