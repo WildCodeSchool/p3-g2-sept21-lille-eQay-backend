@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS `mesures`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `mesures` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `timestamp` int DEFAULT NULL,
+  `timestamp` DATETIME DEFAULT NULL,
   `aqi` decimal(6,3) DEFAULT NULL,
   `pm1` decimal(6,3) DEFAULT NULL,
   `pm10` decimal(6,3) DEFAULT NULL,
