@@ -6,6 +6,10 @@ app.get('/characters', async (req, res) => {
   res.status(404).send('Route not found! ');
 });
 
+app.get('/indoor', async (req, res) => {
+  res.status(404).send('Route not found! ');
+});
+
 app.use('/', (req, res) => {
   res.status(404).send('Route not found! ');
 });
