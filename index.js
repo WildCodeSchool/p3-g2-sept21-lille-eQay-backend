@@ -10,8 +10,8 @@ app.get('/characters', async (req, res) => {
 
 app.get('/indoor', async (req, res) => {
   try {
-    const result = await db.query(`SELECT * FROM eQAI.mesures;`);
-    await res.status(200).send(result);
+    const rows = await db.query(`SELECT * FROM mesures;`);
+    await res.status(200).send(rows);
   } catch (error) {
     console.log(error);
   }
