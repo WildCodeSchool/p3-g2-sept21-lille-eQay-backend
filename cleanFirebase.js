@@ -63,4 +63,6 @@ function getMesuresDb() {
   });
 }
 
+getAllAddressesDb();
+getMesuresDb();
 module.exports = { getAllAddressesDb, getMesuresDb, getIdAdresses };
