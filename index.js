@@ -1,8 +1,10 @@
 const express = require('express');
+const cors = require('cors');
 const { db } = require('./config');
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 app.get('/characters', async (req, res) => {
   res.status(404).send('Route not found! ');
