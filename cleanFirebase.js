@@ -7,15 +7,21 @@ async function getAllAddressesDb() {
   arrayOfFirstKeys.map(async (key1) => {
     const arrayOfKeys = Object.keys(dbFirebase.auto[key1]);
     arrayOfKeys.map(async (key2) => {
-      const fullCoors = dbFirebase.auto[key1][key2].coor.split(',');
-      const latitude = fullCoors[0];
-      const longitude = fullCoors[1];
-      await db.query(
-        `INSERT INTO adresses (latitude, longitude)
-            VALUES (?, ?);
-            `,
-        [latitude, longitude]
-      );
+      if (dbFirebase.auto[key1][key2].coor) {
+        const fullCoors = dbFirebase.auto[key1][key2].coor.split(',');
+        const latitude = fullCoors[0];
+        const longitude = fullCoors[1];
+        try {
+          await db.query(
+            `INSERT INTO adresses (latitude, longitude)
+                VALUES (?, ?);
+                `,
+            [latitude, longitude]
+          );
+        } catch (error) {
+          console.log('You try to insert existing values in DB');
+        }
+      }
     });
   });
 }
@@ -66,5 +72,5 @@ function getMesuresDb() {
     });
   });
 }
-
+getAllAddressesDb();
 module.exports = { getAllAddressesDb, getMesuresDb };
