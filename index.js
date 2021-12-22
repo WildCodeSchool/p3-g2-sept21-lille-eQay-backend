@@ -20,7 +20,6 @@ app.get('/indoor', async (req, res) => {
           )
           .then((data2) => {
             result.push(data2[0]);
-            console.log(result.length);
             if (result.length === data[0].length) {
               res.status(200).send(result);
             }
