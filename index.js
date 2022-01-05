@@ -61,7 +61,7 @@ app.get('/outdoor/:lat&:lng', (req, res) => {
         res.status(200).send(information);
       });
   } catch (error) {
-    console.error(error, lat);
+    console.error(error);
   }
 });
 
