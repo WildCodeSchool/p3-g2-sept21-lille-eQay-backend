@@ -2,6 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const { db } = require('./config');
+require('dotenv').config();
+
+const { API_EXT_TOKEN } = process.env;
 
 const app = express();
 app.use(express.json());
@@ -37,7 +40,7 @@ app.get('/outdoor/:lat&:lng', (req, res) => {
   try {
     axios
       .get(
-        `http://api.waqi.info/feed/geo:${lat};${lng}/?token=ef1671322695b4ceecbbe02ececa1c69ae2ee31f`
+        `http://api.waqi.info/feed/geo:${lat};${lng}/?token=${API_EXT_TOKEN}`
       )
       .then((response) => {
         const apiResponse = response.data;
