@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const axios = require('axios');
 const { db } = require('./config');
 
 const app = express();
@@ -30,6 +31,41 @@ app.get('/indoor', async (req, res) => {
     console.log(error);
   }
 });
+
+app.get('/outdoor/:lat&:lng', (req, res) => {
+  const { lat, lng } = req.params;
+  try {
+    axios
+      .get(
+        `http://api.waqi.info/feed/geo:${lat};${lng}/?token=ef1671322695b4ceecbbe02ececa1c69ae2ee31f`
+      )
+      .then((response) => {
+        const apiResponse = response.data;
+        const information = {
+          aqi: '',
+          no2: '',
+          so2: '',
+          o3: '',
+          pm10: '',
+          pm25: '',
+        };
+        information.aqi = apiResponse.data.aqi;
+        information.no2 = apiResponse.data.iaqi.no2.v;
+        information.so2 = apiResponse.data.aqi;
+        information.o3 = apiResponse.data.aqi;
+        const { pm10 } = apiResponse.data.forecast.daily;
+        information.pm10 = pm10;
+        information.pm25 = apiResponse.data.forecast.daily.pm25;
+        res.status(200).send(information);
+      });
+  } catch (error) {
+    console.error(error, lat);
+  }
+});
+
+// http://api.waqi.info/feed/geo:49.28897858;1.80860305/?token=ef1671322695b4ceecbbe02ececa1c69ae2ee31f
+// http://api.waqi.info//map/bounds/?token=ef1671322695b4ceecbbe02ececa1c69ae2ee31f&latlng=49.28897858;1.80860305
+// https://api.waqi.info/feed/paris/?token=ef1671322695b4ceecbbe02ececa1c69ae2ee31f
 
 app.use('/', (req, res) => {
   res.status(404).send('Route not found! ');
