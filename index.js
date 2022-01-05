@@ -42,6 +42,7 @@ app.get('/outdoor/:lat&:lng', (req, res) => {
       .then((response) => {
         const apiResponse = response.data;
         const information = {
+          coords: '',
           aqi: '',
           no2: '',
           o3: '',
@@ -51,6 +52,7 @@ app.get('/outdoor/:lat&:lng', (req, res) => {
           humidity: '',
           wind: '',
         };
+        information.coords = apiResponse.data.city.geo;
         information.aqi = apiResponse.data.aqi;
         information.no2 = apiResponse.data.iaqi.no2.v;
         information.o3 = apiResponse.data.iaqi.o3.v;
