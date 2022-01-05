@@ -42,25 +42,19 @@ app.get('/outdoor/:lat&:lng', (req, res) => {
       .then((response) => {
         const apiResponse = response.data;
         const information = {
-          coords: '',
-          aqi: '',
-          no2: '',
-          o3: '',
-          pm10: '',
-          temp: '',
-          pressure: '',
-          humidity: '',
-          wind: '',
+          coords: {
+            lat: apiResponse.data.city.geo[0],
+            lng: apiResponse.data.city.geo[1],
+          },
+          aqi: apiResponse.data.aqi,
+          no2: apiResponse.data.iaqi.no2.v,
+          o3: apiResponse.data.iaqi.o3.v,
+          pm10: apiResponse.data.iaqi.pm10.v,
+          temp: apiResponse.data.iaqi.t.v,
+          pressure: apiResponse.data.iaqi.h.v,
+          humidity: apiResponse.data.iaqi.h.v,
+          wind: apiResponse.data.iaqi.wg.v,
         };
-        information.coords = apiResponse.data.city.geo;
-        information.aqi = apiResponse.data.aqi;
-        information.no2 = apiResponse.data.iaqi.no2.v;
-        information.o3 = apiResponse.data.iaqi.o3.v;
-        information.pm10 = apiResponse.data.iaqi.pm10.v;
-        information.temp = apiResponse.data.iaqi.t.v;
-        information.pressure = apiResponse.data.iaqi.p.v;
-        information.humidity = apiResponse.data.iaqi.h.v;
-        information.wind = apiResponse.data.iaqi.wg.v;
         res.status(200).send(information);
       });
   } catch (error) {
