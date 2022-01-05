@@ -44,28 +44,27 @@ app.get('/outdoor/:lat&:lng', (req, res) => {
         const information = {
           aqi: '',
           no2: '',
-          so2: '',
           o3: '',
           pm10: '',
-          pm25: '',
+          temp: '',
+          pressure: '',
+          humidity: '',
+          wind: '',
         };
         information.aqi = apiResponse.data.aqi;
         information.no2 = apiResponse.data.iaqi.no2.v;
-        information.so2 = apiResponse.data.aqi;
-        information.o3 = apiResponse.data.aqi;
-        const { pm10 } = apiResponse.data.forecast.daily;
-        information.pm10 = pm10;
-        information.pm25 = apiResponse.data.forecast.daily.pm25;
+        information.o3 = apiResponse.data.iaqi.o3.v;
+        information.pm10 = apiResponse.data.iaqi.pm10.v;
+        information.temp = apiResponse.data.iaqi.t.v;
+        information.pressure = apiResponse.data.iaqi.p.v;
+        information.humidity = apiResponse.data.iaqi.h.v;
+        information.wind = apiResponse.data.iaqi.wg.v;
         res.status(200).send(information);
       });
   } catch (error) {
     console.error(error, lat);
   }
 });
-
-// http://api.waqi.info/feed/geo:49.28897858;1.80860305/?token=ef1671322695b4ceecbbe02ececa1c69ae2ee31f
-// http://api.waqi.info//map/bounds/?token=ef1671322695b4ceecbbe02ececa1c69ae2ee31f&latlng=49.28897858;1.80860305
-// https://api.waqi.info/feed/paris/?token=ef1671322695b4ceecbbe02ececa1c69ae2ee31f
 
 app.use('/', (req, res) => {
   res.status(404).send('Route not found! ');
