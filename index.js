@@ -1,6 +1,10 @@
 const express = require('express');
 const cors = require('cors');
+const axios = require('axios');
 const { db } = require('./config');
+require('dotenv').config();
+
+const { API_EXT_TOKEN } = process.env;
 
 const app = express();
 app.use(express.json());
@@ -28,6 +32,36 @@ app.get('/indoor', async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+  }
+});
+
+app.get('/outdoor/:lat&:lng', (req, res) => {
+  const { lat, lng } = req.params;
+  try {
+    axios
+      .get(
+        `http://api.waqi.info/feed/geo:${lat};${lng}/?token=${API_EXT_TOKEN}`
+      )
+      .then((response) => {
+        const apiResponse = response.data;
+        const information = {
+          coords: {
+            lat: apiResponse.data.city.geo[0],
+            lng: apiResponse.data.city.geo[1],
+          },
+          aqi: apiResponse.data.aqi,
+          no2: apiResponse.data.iaqi.no2.v,
+          o3: apiResponse.data.iaqi.o3.v,
+          pm10: apiResponse.data.iaqi.pm10.v,
+          temp: apiResponse.data.iaqi.t.v,
+          pressure: apiResponse.data.iaqi.h.v,
+          humidity: apiResponse.data.iaqi.h.v,
+          wind: apiResponse.data.iaqi.wg.v,
+        };
+        res.status(200).send(information);
+      });
+  } catch (error) {
+    console.error(error);
   }
 });
 
