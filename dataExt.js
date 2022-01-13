@@ -79,8 +79,12 @@ const getGouvMesure = async () => {
   }, {});
 
   try {
+    const now = new Date();
+    const day = String(now.getDate()).padStart(2, '0');
+    const month = String(now.getMonth()).padStart(2, '0');
+    const year = now.getFullYear();
     const resp = await axios.get(
-      'https://files.data.gouv.fr/lcsqa/concentrations-de-polluants-atmospheriques-reglementes/temps-reel/2022/FR_E2_2022-01-11.csv'
+      `https://files.data.gouv.fr/lcsqa/concentrations-de-polluants-atmospheriques-reglementes/temps-reel/${year}/FR_E2_${year}-${month}-${day}.csv`
     );
     const mesureCSV = resp.data.replace(/;/g, ',');
     fspromise
