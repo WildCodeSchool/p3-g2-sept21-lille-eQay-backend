@@ -81,11 +81,10 @@ const getGouvMesure = async () => {
   try {
     const now = new Date();
     const day = String(now.getDate()).padStart(2, '0');
-    const month = String(now.getMonth()).padStart(2, '0');
+    const month = String(1 + now.getMonth()).padStart(2, '0');
     const year = now.getFullYear();
-    const resp = await axios.get(
-      `https://files.data.gouv.fr/lcsqa/concentrations-de-polluants-atmospheriques-reglementes/temps-reel/${year}/FR_E2_${year}-${month}-${day}.csv`
-    );
+    const path = `https://files.data.gouv.fr/lcsqa/concentrations-de-polluants-atmospheriques-reglementes/temps-reel/${year}/FR_E2_${year}-${month}-${day}.csv`;
+    const resp = await axios.get(path);
     const mesureCSV = resp.data.replace(/;/g, ',');
     fspromise
       .writeFile('./dataExt/mesures.csv', mesureCSV, (err) => {
