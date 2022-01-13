@@ -2,7 +2,6 @@ const { load } = require('csv-load-sync');
 const axios = require('axios');
 const fs = require('fs');
 const fspromise = require('fs/promises');
-
 const { db } = require('./config');
 
 const typeOfMesure = 'Ext';
@@ -65,7 +64,6 @@ const getGouvMesure = async () => {
   if (fs.existsSync('./dataExt/mesures.csv')) {
     fs.unlinkSync('./dataExt/mesures.csv');
   }
-
   // LINK FOR GET FILE : https://www.lcsqa.org/system/files/media/documents/Liste%20points%20de%20mesures%202020%20pour%20site%20LCSQA_221292021.xlsx
   // -------------------------------------- SITES
   const rawSites = load('./dataExt/stations.csv');
@@ -77,7 +75,6 @@ const getGouvMesure = async () => {
     };
     return newAccu;
   }, {});
-
   try {
     const now = new Date();
     const day = String(now.getDate()).padStart(2, '0');
@@ -106,9 +103,7 @@ const getGouvMesure = async () => {
             console.log(`Site inconnu: ${site}`);
             return accu;
           }
-
           const { lat, lng } = sites[site];
-
           const newAccu = JSON.parse(JSON.stringify(accu));
           if (!newAccu[key]) {
             newAccu[key] = {
