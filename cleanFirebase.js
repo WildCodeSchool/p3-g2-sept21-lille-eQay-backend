@@ -45,8 +45,8 @@ function getMesuresDb() {
             console.log('data not fount in DB you can push');
             try {
               db.query(
-                `INSERT INTO mesures (aqi, pm1, pm10, pm25, ppm, humidity, temperature, adresses_latitude, adresses_longitude, timestamp)
-              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, FROM_UNIXTIME(?))
+                `INSERT INTO mesures (aqi, pm1, pm10, pm25, ppm, humidity, temperature, adresses_latitude, adresses_longitude, timestamp, type)
+              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, FROM_UNIXTIME(?),?)
               `,
                 [
                   typeof mesures.aqi === 'string' ? null : mesures.aqi,
@@ -63,6 +63,7 @@ function getMesuresDb() {
                   latitude,
                   longitude,
                   parseInt(timestamp / 1000, 10),
+                  'Int',
                 ]
               );
             } catch (error) {
