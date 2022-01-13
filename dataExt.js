@@ -94,11 +94,9 @@ const getGouvMesure = async () => {
         const rawMesures = load('./dataExt/mesures.csv');
         mesures = rawMesures.reduce((accu, curr, i) => {
           if (i % 100 === 1) console.log(`Key #${i}`);
-
           const site = curr['code site'];
           const datetime = curr['Date de début'];
           const key = `${site} ${datetime}`;
-
           if (!sites[site]) {
             console.log(`Site inconnu: ${site}`);
             return accu;
