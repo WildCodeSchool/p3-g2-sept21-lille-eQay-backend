@@ -20,7 +20,6 @@ function getMesuresDb() {
       ]
     ).then((data) => {
       if (!data[0].length) {
-        console.log('data not fount in DB you can push');
         try {
           db.query(
             `INSERT INTO adresses (latitude,longitude)
