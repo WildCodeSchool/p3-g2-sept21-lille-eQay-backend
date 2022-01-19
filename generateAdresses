@@ -1,0 +1,40 @@
+const axios = require('axios');
+const { db } = require('./config');
+
+// SELECT *
+// FROM `2109-auth`.adresses
+// WHERE
+// 	city IS NULL
+// 	AND street IS NULL;
+// -- Pour chaque resultat, appeler l'api
+// -- Et update la table adresses
+// UPDATE `2109-auth`.adresses
+// SET city='Lille', street="Avenue des Saules"
+// WHERE lat=23 AND lng=456;
+
+async function updateAdresses() {
+  const [coordinates] = await db.query(
+    `SELECT latitude, longitude FROM adresses WHERE ville IS NULL AND region IS NULL`
+  );
+
+  for (let i = 0; i < coordinates.length; i += 1) {
+    const { longitude } = coordinates[i];
+    const { latitude } = coordinates[i];
+
+    axios
+      .get(
+        `https://api-adresse.data.gouv.fr/reverse/?lon=${longitude}&lat=${latitude}`
+      )
+      .then((response) => {
+        const info = response.data;
+        return console.log(info.features[0].properties.name);
+      })
+      .catch((error) => console.error(error));
+  }
+}
+updateAdresses();
+module.exports = { updateAdresses };
+
+// var chaine="60, Oise, Hauts-de-France"
+// chaine = chaine.split(", ")
+// console.log(chaine[2])
