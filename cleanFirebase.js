@@ -1,14 +1,14 @@
-const dbFirebase = require('./batemob-export.json');
+const dbFirebase = require('./dataInt/mesures.json');
 
 const { db } = require('./config');
 
 async function getAllAddressesDb() {
-  const arrayOfFirstKeys = Object.keys(dbFirebase.auto);
+  const arrayOfFirstKeys = Object.keys(dbFirebase);
   arrayOfFirstKeys.map(async (key1) => {
-    const arrayOfKeys = Object.keys(dbFirebase.auto[key1]);
+    const arrayOfKeys = Object.keys(dbFirebase[key1]);
     arrayOfKeys.map(async (key2) => {
-      if (dbFirebase.auto[key1][key2].coor) {
-        const fullCoors = dbFirebase.auto[key1][key2].coor.split(',');
+      if (dbFirebase[key1][key2].coor) {
+        const fullCoors = dbFirebase[key1][key2].coor.split(',');
         const latitude = fullCoors[0];
         const longitude = fullCoors[1];
         try {
@@ -27,14 +27,14 @@ async function getAllAddressesDb() {
 }
 
 function getMesuresDb() {
-  const arrayOfFirstKeys = Object.keys(dbFirebase.auto);
+  const arrayOfFirstKeys = Object.keys(dbFirebase);
   arrayOfFirstKeys.map((key1) => {
-    const arrayOfSecondeKeys = Object.keys(dbFirebase.auto[key1]);
+    const arrayOfSecondeKeys = Object.keys(dbFirebase[key1]);
     return arrayOfSecondeKeys.map(async (key2) => {
-      if (dbFirebase.auto[key1][key2].coor) {
-        const { mesures } = dbFirebase.auto[key1][key2];
+      if (dbFirebase[key1][key2].coor) {
+        const { mesures } = dbFirebase[key1][key2];
         const timestamp = key2;
-        const fullCoors = dbFirebase.auto[key1][key2].coor.split(',');
+        const fullCoors = dbFirebase[key1][key2].coor.split(',');
         const latitude = fullCoors[0];
         const longitude = fullCoors[1];
         db.query(
