@@ -19,7 +19,7 @@ app.get('/indoor', async (req, res) => {
       data[0].map((row) => {
         return db
           .query(
-            `SELECT * FROM mesures WHERE adresses_longitude=? AND adresses_latitude=? ORDER BY timestamp LIMIT 1;`,
+            `SELECT * FROM mesures WHERE adresses_longitude=? AND adresses_latitude=? ORDER BY timestamp desc LIMIT 1;`,
             [row.adresses_longitude, row.adresses_latitude]
           )
           .then((data2) => {
