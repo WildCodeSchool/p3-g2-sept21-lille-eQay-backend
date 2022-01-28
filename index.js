@@ -19,7 +19,32 @@ app.get('/indoor', async (req, res) => {
       data[0].map((row) => {
         return db
           .query(
-            `SELECT * FROM mesures WHERE adresses_longitude=? AND adresses_latitude=? ORDER BY timestamp desc LIMIT 1;`,
+            `SELECT * FROM mesures WHERE adresses_longitude=? AND adresses_latitude=? AND type="Int" ORDER BY timestamp desc LIMIT 1;`,
+            [row.adresses_longitude, row.adresses_latitude]
+          )
+          .then((data2) => {
+            result.push(data2[0]);
+            if (result.length === data[0].length) {
+              res.status(200).send(result);
+            }
+          });
+      });
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get('/outdoor', async (req, res) => {
+  const result = [];
+  try {
+    db.query(
+      `SELECT distinct adresses_longitude, adresses_latitude FROM mesures;`
+    ).then((data) => {
+      data[0].map((row) => {
+        return db
+          .query(
+            `SELECT * FROM mesures WHERE adresses_longitude=? AND adresses_latitude=? AND type="Ext" ORDER BY timestamp desc LIMIT 1;`,
             [row.adresses_longitude, row.adresses_latitude]
           )
           .then((data2) => {
