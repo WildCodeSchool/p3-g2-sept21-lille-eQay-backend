@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
-const { db } = require('./config');
+const { db, backPort } = require('./config');
 require('dotenv').config();
 
 const { API_EXT_TOKEN } = process.env;
@@ -69,6 +69,6 @@ app.use('/', (req, res) => {
   res.status(404).send('Route not found! ');
 });
 
-app.listen(5050, () => {
-  console.log('Terra Battle API now available on http://localhost:5050 !');
+app.listen(backPort, () => {
+  console.log('Bienvenue sur eQAI !');
 });
