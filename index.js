@@ -10,7 +10,10 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get('/indoor', async (req, res) => {
+let BDDflashIndoor;
+let BDDflashOutdoor;
+
+function UpdateFlashIndoor() {
   const result = [];
   try {
     db.query(
@@ -25,7 +28,8 @@ app.get('/indoor', async (req, res) => {
           .then((data2) => {
             result.push(data2[0]);
             if (result.length === data[0].length) {
-              res.status(200).send(result);
+              BDDflashIndoor = result;
+              console.log('Update indoor value');
             }
           });
       });
@@ -33,9 +37,8 @@ app.get('/indoor', async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-});
-
-app.get('/outdoor', async (req, res) => {
+}
+function UpdateFlashOutdoor() {
   const result = [];
   try {
     db.query(
@@ -50,11 +53,36 @@ app.get('/outdoor', async (req, res) => {
           .then((data2) => {
             result.push(data2[0]);
             if (result.length === data[0].length) {
-              res.status(200).send(result);
+              BDDflashOutdoor = result;
+              console.log('Update outdoor value');
             }
           });
       });
     });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+UpdateFlashIndoor();
+UpdateFlashOutdoor();
+
+setInterval(() => {
+  UpdateFlashIndoor();
+  UpdateFlashOutdoor();
+}, 250000);
+
+app.get('/indoor/flash', async (req, res) => {
+  try {
+    res.status(200).send(BDDflashIndoor);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get('/outdoor/flash', async (req, res) => {
+  try {
+    res.status(200).send(BDDflashOutdoor);
   } catch (error) {
     console.log(error);
   }
